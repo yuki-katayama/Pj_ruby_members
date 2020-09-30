@@ -14,12 +14,18 @@
 
   <tbody>
     <% @posts.each do |post| %>
+      <%= link_to 'コメントする', new_comment_path(:post_id => post.id)  %>
       <tr>
-      <td><%= post.user.profile ? post.user.profile.name : post.user_id %></td>
+      <td class="User_name"><%= post.user.profile ? post.user.profile.name : post.user_id %></td>
         <td><%= post.text %></td>
-        <td><%= link_to 'Show', post %></td>
+        <div class="box-10">
+        <td class="box-10"><%= link_to 'Show', post %></td>
         <td><%= link_to 'Edit', edit_post_path(post) %></td>
         <td><%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% post.comments.each do |comment| %>
+        <td><p><%= comment.text %></p></td>
+      <% end %>
+        </div>
       </tr>
     <% end %>
   </tbody>
@@ -28,3 +34,41 @@
 <br>
 
 <%= link_to 'New Post', new_post_path %>
+
+<style>
+td {
+  position: relative;
+  list-style-type: none!important;/*ポチ消す*/
+  padding: 0.5em 0.5em 0.5em 0.5em;
+  margin-bottom: 5px;
+  line-height: 1.5;
+  background: #dbebf8;
+  vertical-align: middle;
+  color: #505050;
+  border-bottom: 4px #21b384;
+}
+
+.User_name:before{ 
+  display:inline-block; 
+  vertical-align: middle;
+  /*以下白丸つくる*/
+  content:'';
+  width:1em;
+  height: 1em;
+  background: #fff;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+h1 {
+  border: double 4px #21b384;
+  padding: 0.5em 1em 0.5em 2.3em;
+  position: relative;
+  color: red;
+}
+h1{
+  line-height: 1.5;
+  padding: 0.5em 0;
+  list-style-type: none!important;/*ポチ消す*/
+}
+</style>
